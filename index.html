@@ -5,43 +5,38 @@
     <title>Weather Spin & Act</title>
     <style>
         body { text-align: center; font-family: 'Comic Sans MS', sans-serif; background: #fffde7; user-select: none; }
-        .game-board { margin: 30px auto; width: 85%; background: white; padding: 30px; border-radius: 25px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
-        #wheel { width: 280px; height: 280px; border-radius: 50%; border: 10px solid #ffcc80; cursor: pointer; margin: 15px auto; transition: transform 2.5s ease-out; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background: conic-gradient(#f44336, #ff9800, #ffeb3b, #4caf50, #2196f3, #9c27b0, #f44336); }
-        #wheel::after { content: "SPIN"; color: white; font-size: 28px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        #pointer { font-size: 40px; color: #d84315; position: absolute; top: -35px; }
-        #weather-display { height: 180px; margin-top: 15px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .sentence { font-size: 28px; color: #37474f; margin: 15px; font-weight: bold; min-height: 40px; }
+        .game-board { margin: 20px auto; width: 90%; background: white; padding: 20px; border-radius: 25px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        /* 放大轉盤 */
+        #wheel { width: 400px; height: 400px; border-radius: 50%; border: 12px solid #ffcc80; cursor: pointer; margin: 20px auto; transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(#f44336, #ff9800, #ffeb3b, #4caf50, #2196f3, #9c27b0, #f44336); display: flex; align-items: center; justify-content: center; }
+        #wheel::after { content: "SPIN"; color: white; font-size: 40px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        #weather-display { height: 250px; margin-top: 20px; border-radius: 15px; }
+        .sentence { font-size: 48px; color: #37474f; margin: 30px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <h1>Weather Spin & Act!</h1>
     <div class="game-board">
-        <div style="position: relative;">
-            <div id="pointer">▼</div>
-            <div id="wheel" onclick="spinWheel()"></div>
-        </div>
-        
-        <div id="result-area" style="margin-top: 20px;">
-            <img id="weather-display" src="sunny.jpg.jpg" alt="Weather" style="display:none;">
+        <div id="wheel" onclick="spinWheel()"></div>
+        <div id="result-area">
+            <img id="weather-display" src="" alt="Weather" style="display:none;">
             <div class="sentence" id="q-text">Click the wheel to start!</div>
         </div>
     </div>
 
     <script>
-        // 1. 資料庫：對應您的 JPG.JPG 檔名與 TPR 提示文字
         const weatherData = [
-            {name: "hot", img: "hot.jpg.jpg", tpr: "Phew! Fanning myself!"},
-            {name: "cold", img: "cold.jpg.jpg", tpr: "Brrr! Shivering and hugging myself!"},
-            {name: "sunny", img: "sunny.jpg.jpg", tpr: "Big sun overhead!"},
-            {name: "rainy", img: "rainy.jpg.jpg", tpr: "Pitter-patter rain hands!"},
-            {name: "cloudy", img: "cloudy.jpg.jpg", tpr: "Big fluffy clouds!"},
-            {name: "snowy", img: "snowy.jpg.jpg", tpr: "Catching snowflakes!"},
-            {name: "windy", img: "windy.jpg.jpg", tpr: "Blowing in the wind!"},
-            {name: "partly cloudy", img: "partly cloudy.jpg.jpg", tpr: "Sun and clouds together!"},
-            {name: "stormy", img: "stormy.jpg.jpg", tpr: "Lightning bolt shape!"},
-            {name: "rainbow", img: "rainbow.jpg.jpg", tpr: "Drawing a big rainbow arch!"},
-            {name: "typhoon", img: "typhoon.jpg.jpg", tpr: "Spinning like a typhoon!"}
+            {name: "HOT", img: "hot.jpg.jpg"},
+            {name: "COLD", img: "cold.jpg.jpg"},
+            {name: "SUNNY", img: "sunny.jpg.jpg"},
+            {name: "RAINY", img: "rainy.jpg.jpg"},
+            {name: "CLOUDY", img: "cloudy.jpg.jpg"},
+            {name: "SNOWY", img: "snowy.jpg.jpg"},
+            {name: "WINDY", img: "windy.jpg.jpg"},
+            {name: "PARTLY CLOUDY", img: "partly cloudy.jpg.jpg"},
+            {name: "STORMY", img: "stormy.jpg.jpg"},
+            {name: "RAINBOW", img: "rainbow.jpg.jpg"},
+            {name: "TYPHOON", img: "typhoon.jpg.jpg"}
         ];
 
         let isSpinning = false;
@@ -54,33 +49,28 @@
             let qText = document.getElementById('q-text');
             let imgDisplay = document.getElementById('weather-display');
             
-            // 隱藏上一題的圖
             imgDisplay.style.display = 'none';
             qText.innerText = "Spinning...";
 
-            // 隨機旋轉 3-5 圈
-            let randomDeg = Math.floor(Math.random() * 720) + 1080; 
+            let randomDeg = Math.floor(Math.random() * 720) + 1440; 
             wheel.style.transform = `rotate(${randomDeg}deg)`;
 
             setTimeout(() => {
-                // 轉完後隨機抽一個天氣
                 let item = weatherData[Math.floor(Math.random() * weatherData.length)];
-                
-                // 更新畫面
                 imgDisplay.src = item.img;
                 imgDisplay.style.display = 'inline-block';
                 
-                let article = (['a','e','i','o','u'].includes(item.name[0])) ? "an" : "a";
-                qText.innerHTML = "What's the weather like?<br>It's " + article + " <b>" + item.name + "</b>!<br><span style='color:#00796b;font-size:24px;'>TPR: " + item.tpr + "</span>";
+                // 簡化句子
+                qText.innerHTML = "What's the weather like?<br>It's " + item.name + ".";
                 
-                // 語音播放
-                let msg = new SpeechSynthesisUtterance("What's the weather like? It's " + article + " " + item.name + ". " + item.tpr);
+                // 語速變慢 (rate: 0.5)
+                let msg = new SpeechSynthesisUtterance("What's the weather like? It's " + item.name + ".");
                 msg.lang = 'en-US';
-                msg.rate = 0.8;
+                msg.rate = 0.5; 
                 window.speechSynthesis.speak(msg);
                 
                 isSpinning = false;
-            }, 2500); // 轉動時間 2.5 秒
+            }, 3000);
         }
     </script>
 </body>
