@@ -6,8 +6,7 @@
     <style>
         body { text-align: center; font-family: 'Comic Sans MS', sans-serif; background: #fffde7; user-select: none; }
         .game-board { margin: 20px auto; width: 90%; background: white; padding: 20px; border-radius: 25px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
-        /* 放大轉盤 */
-        #wheel { width: 400px; height: 400px; border-radius: 50%; border: 12px solid #ffcc80; cursor: pointer; margin: 20px auto; transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(#f44336, #ff9800, #ffeb3b, #4caf50, #2196f3, #9c27b0, #f44336); display: flex; align-items: center; justify-content: center; }
+        #wheel { width: 400px; height: 400px; border-radius: 50%; border: 12px solid #ffcc80; cursor: pointer; margin: 20px auto; transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(red, orange, yellow, green, blue, indigo, violet); display: flex; align-items: center; justify-content: center; }
         #wheel::after { content: "SPIN"; color: white; font-size: 40px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
         #weather-display { height: 250px; margin-top: 20px; border-radius: 15px; }
         .sentence { font-size: 48px; color: #37474f; margin: 30px; font-weight: bold; }
@@ -25,6 +24,7 @@
     </div>
 
     <script>
+        // 這裡完全對應您上傳的檔案名稱 (包含 .jpg.jpg)
         const weatherData = [
             {name: "HOT", img: "hot.jpg.jpg"},
             {name: "COLD", img: "cold.jpg.jpg"},
@@ -60,13 +60,12 @@
                 imgDisplay.src = item.img;
                 imgDisplay.style.display = 'inline-block';
                 
-                // 簡化句子
                 qText.innerHTML = "What's the weather like?<br>It's " + item.name + ".";
                 
-                // 語速變慢 (rate: 0.5)
+                // 語速調整為 0.8
                 let msg = new SpeechSynthesisUtterance("What's the weather like? It's " + item.name + ".");
                 msg.lang = 'en-US';
-                msg.rate = 0.5; 
+                msg.rate = 0.8; 
                 window.speechSynthesis.speak(msg);
                 
                 isSpinning = false;
