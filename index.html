@@ -24,18 +24,19 @@
     </div>
 
     <script>
+        // 全部改為小寫以符合句型
         const weatherData = [
-            {name: "Hot", img: "hot.jpg.jpg"},
-            {name: "Cold", img: "cold.jpg.jpg"},
-            {name: "Sunny", img: "sunny.jpg.jpg"},
-            {name: "Rainy", img: "rainy.jpg.jpg"},
-            {name: "Cloudy", img: "cloudy.jpg.jpg"},
-            {name: "Snowy", img: "snowy.jpg.jpg"},
-            {name: "Windy", img: "windy.jpg.jpg"},
-            {name: "Partly cloudy", img: "partly cloudy.jpg.jpg"},
-            {name: "Stormy", img: "stormy.jpg.jpg"},
-            {name: "Rainbow", img: "rainbow.jpg.jpg"},
-            {name: "Typhoon", img: "typhoon.jpg.jpg"}
+            {name: "hot", img: "hot.jpg.jpg"},
+            {name: "cold", img: "cold.jpg.jpg"},
+            {name: "sunny", img: "sunny.jpg.jpg"},
+            {name: "rainy", img: "rainy.jpg.jpg"},
+            {name: "cloudy", img: "cloudy.jpg.jpg"},
+            {name: "snowy", img: "snowy.jpg.jpg"},
+            {name: "windy", img: "windy.jpg.jpg"},
+            {name: "partly cloudy", img: "partly cloudy.jpg.jpg"},
+            {name: "stormy", img: "stormy.jpg.jpg"},
+            {name: "rainbow", img: "rainbow.jpg.jpg"},
+            {name: "typhoon", img: "typhoon.jpg.jpg"}
         ];
 
         let isSpinning = false;
@@ -67,14 +68,15 @@
                 
                 // 等待 5 秒後唸出答案
                 setTimeout(() => {
+                    // 正確的大寫與小寫呈現
                     qText.innerHTML = "What's the weather like?<br>It's " + item.name + ".";
-                    // 答案也使用 0.8 語速
+                    
                     let answerMsg = new SpeechSynthesisUtterance("It's " + item.name + ".");
                     answerMsg.rate = 0.8;
                     window.speechSynthesis.speak(answerMsg);
                     isSpinning = false;
-                }, 5000); // 5秒停頓
-            }, 3000); // 3秒顯示圖片
+                }, 5000); 
+            }, 3000);
         }
     </script>
 </body>
