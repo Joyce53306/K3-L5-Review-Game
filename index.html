@@ -55,9 +55,8 @@
             let randomDeg = Math.floor(Math.random() * 1440) + 2160; 
             wheel.style.transform = `rotate(${randomDeg}deg)`;
             
-            // 1. 先唸問句 (語速 0.8)
+            // 1. 先唸問句 (回歸預設最自然的語速)
             let questionMsg = new SpeechSynthesisUtterance("What's the weather like?");
-            questionMsg.rate = 0.8;
             window.speechSynthesis.speak(questionMsg);
 
             // 2. 等待 3 秒後顯示圖片
@@ -66,13 +65,12 @@
                 imgDisplay.src = item.img;
                 imgDisplay.style.display = 'inline-block';
                 
-                // 等待 5 秒後唸出答案
+                // 3. 等待 5 秒後唸出答案
                 setTimeout(() => {
-                    // 正確的大寫與小寫呈現
                     qText.innerHTML = "What's the weather like?<br>It's " + item.name + ".";
                     
+                    // 答案保持最原始的發音方式，不加 rate 設定
                     let answerMsg = new SpeechSynthesisUtterance("It's " + item.name + ".");
-                    answerMsg.rate = 0.8;
                     window.speechSynthesis.speak(answerMsg);
                     isSpinning = false;
                 }, 5000); 
