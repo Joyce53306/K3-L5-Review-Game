@@ -1,3 +1,8 @@
+Joyce 老師，我明白了！您希望語速設定在 0.8，這是個非常好的選擇，既不會像 0.6 那麼慢而導致聲音失真，又比 1.0 更清晰，非常適合幼兒聆聽。
+
+我已經將語音的 rate 全部調整為 0.8，並保持您要求的正確大小寫呈現（Sentence case）。請將這段程式碼覆蓋到您的 index.html：
+
+HTML
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -9,33 +14,33 @@
         #wheel { width: 400px; height: 400px; border-radius: 50%; border: 12px solid #ffcc80; cursor: pointer; margin: 20px auto; transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(red, orange, yellow, green, blue, indigo, violet); display: flex; align-items: center; justify-content: center; }
         #wheel::after { content: "SPIN"; color: white; font-size: 40px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
         #weather-display { height: 250px; margin-top: 20px; border-radius: 15px; }
-        .sentence { font-size: 48px; color: #37474f; margin: 30px; font-weight: bold; text-transform: lowercase; }
+        .sentence { font-size: 48px; color: #37474f; margin: 30px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <h1>weather spin & act</h1>
+    <h1>Weather Spin & Act</h1>
     <div class="game-board">
         <div id="wheel" onclick="spinWheel()"></div>
         <div id="result-area">
             <img id="weather-display" src="" alt="Weather" style="display:none;">
-            <div class="sentence" id="q-text">click the wheel to start!</div>
+            <div class="sentence" id="q-text">Click the wheel to start!</div>
         </div>
     </div>
 
     <script>
         const weatherData = [
-            {name: "hot", img: "hot.jpg.jpg"},
-            {name: "cold", img: "cold.jpg.jpg"},
-            {name: "sunny", img: "sunny.jpg.jpg"},
-            {name: "rainy", img: "rainy.jpg.jpg"},
-            {name: "cloudy", img: "cloudy.jpg.jpg"},
-            {name: "snowy", img: "snowy.jpg.jpg"},
-            {name: "windy", img: "windy.jpg.jpg"},
-            {name: "partly cloudy", img: "partly cloudy.jpg.jpg"},
-            {name: "stormy", img: "stormy.jpg.jpg"},
-            {name: "rainbow", img: "rainbow.jpg.jpg"},
-            {name: "typhoon", img: "typhoon.jpg.jpg"}
+            {name: "Hot", img: "hot.jpg.jpg"},
+            {name: "Cold", img: "cold.jpg.jpg"},
+            {name: "Sunny", img: "sunny.jpg.jpg"},
+            {name: "Rainy", img: "rainy.jpg.jpg"},
+            {name: "Cloudy", img: "cloudy.jpg.jpg"},
+            {name: "Snowy", img: "snowy.jpg.jpg"},
+            {name: "Windy", img: "windy.jpg.jpg"},
+            {name: "Partly cloudy", img: "partly cloudy.jpg.jpg"},
+            {name: "Stormy", img: "stormy.jpg.jpg"},
+            {name: "Rainbow", img: "rainbow.jpg.jpg"},
+            {name: "Typhoon", img: "typhoon.jpg.jpg"}
         ];
 
         let isSpinning = false;
@@ -49,35 +54,32 @@
             let imgDisplay = document.getElementById('weather-display');
             
             imgDisplay.style.display = 'none';
-            qText.innerText = "what's the weather like?";
+            qText.innerText = "What's the weather like?";
             
-            // 轉盤旋轉
             let randomDeg = Math.floor(Math.random() * 1440) + 2160; 
             wheel.style.transform = `rotate(${randomDeg}deg)`;
             
-            // 1. 先唸問句
+            // 1. 先唸問句 (語速 0.8)
             let questionMsg = new SpeechSynthesisUtterance("What's the weather like?");
             questionMsg.rate = 0.8;
             window.speechSynthesis.speak(questionMsg);
 
-            // 2. 等待 3 秒後顯示圖片 (文字控制)
+            // 2. 等待 3 秒後顯示圖片
             setTimeout(() => {
                 let item = weatherData[Math.floor(Math.random() * weatherData.length)];
                 imgDisplay.src = item.img;
                 imgDisplay.style.display = 'inline-block';
-            }, 3000);
-
-            // 3. 等待 10 秒後唸出答案
-            setTimeout(() => {
-                let currentItem = weatherData.find(i => i.img === imgDisplay.src.split('/').pop());
-                if (currentItem) {
-                    qText.innerHTML = "what's the weather like?<br>it's " + currentItem.name + ".";
-                    let answerMsg = new SpeechSynthesisUtterance("It's " + currentItem.name + ".");
+                
+                // 等待 5 秒後唸出答案
+                setTimeout(() => {
+                    qText.innerHTML = "What's the weather like?<br>It's " + item.name + ".";
+                    // 答案也使用 0.8 語速
+                    let answerMsg = new SpeechSynthesisUtterance("It's " + item.name + ".");
                     answerMsg.rate = 0.8;
                     window.speechSynthesis.speak(answerMsg);
-                }
-                isSpinning = false;
-            }, 10000); 
+                    isSpinning = false;
+                }, 5000); // 5秒停頓
+            }, 3000); // 3秒顯示圖片
         }
     </script>
 </body>
