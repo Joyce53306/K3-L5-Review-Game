@@ -6,37 +6,37 @@
     <style>
         body { text-align: center; font-family: 'Comic Sans MS', sans-serif; background: #fffde7; user-select: none; }
         .game-board { margin: 20px auto; width: 90%; background: white; padding: 20px; border-radius: 25px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
-        #wheel { width: 400px; height: 400px; border-radius: 50%; border: 12px solid #ffcc80; cursor: pointer; margin: 20px auto; transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99); background: conic-gradient(red, orange, yellow, green, blue, indigo, violet); display: flex; align-items: center; justify-content: center; }
+        /* 增加旋轉的靈活度 */
+        #wheel { width: 400px; height: 400px; border-radius: 50%; border: 12px solid #ffcc80; cursor: pointer; margin: 20px auto; transition: transform 4s cubic-bezier(0.1, 0.5, 0.1, 1); background: conic-gradient(red, orange, yellow, green, blue, indigo, violet); display: flex; align-items: center; justify-content: center; }
         #wheel::after { content: "SPIN"; color: white; font-size: 40px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
         #weather-display { height: 250px; margin-top: 20px; border-radius: 15px; }
-        .sentence { font-size: 48px; color: #37474f; margin: 30px; font-weight: bold; }
+        .sentence { font-size: 48px; color: #37474f; margin: 30px; font-weight: bold; text-transform: lowercase; }
     </style>
 </head>
 <body>
 
-    <h1>Weather Spin & Act!</h1>
+    <h1>weather spin & act</h1>
     <div class="game-board">
         <div id="wheel" onclick="spinWheel()"></div>
         <div id="result-area">
             <img id="weather-display" src="" alt="Weather" style="display:none;">
-            <div class="sentence" id="q-text">Click the wheel to start!</div>
+            <div class="sentence" id="q-text">click the wheel to start!</div>
         </div>
     </div>
 
     <script>
-        // 這裡完全對應您上傳的檔案名稱 (包含 .jpg.jpg)
         const weatherData = [
-            {name: "HOT", img: "hot.jpg.jpg"},
-            {name: "COLD", img: "cold.jpg.jpg"},
-            {name: "SUNNY", img: "sunny.jpg.jpg"},
-            {name: "RAINY", img: "rainy.jpg.jpg"},
-            {name: "CLOUDY", img: "cloudy.jpg.jpg"},
-            {name: "SNOWY", img: "snowy.jpg.jpg"},
-            {name: "WINDY", img: "windy.jpg.jpg"},
-            {name: "PARTLY CLOUDY", img: "partly cloudy.jpg.jpg"},
-            {name: "STORMY", img: "stormy.jpg.jpg"},
-            {name: "RAINBOW", img: "rainbow.jpg.jpg"},
-            {name: "TYPHOON", img: "typhoon.jpg.jpg"}
+            {name: "hot", img: "hot.jpg.jpg"},
+            {name: "cold", img: "cold.jpg.jpg"},
+            {name: "sunny", img: "sunny.jpg.jpg"},
+            {name: "rainy", img: "rainy.jpg.jpg"},
+            {name: "cloudy", img: "cloudy.jpg.jpg"},
+            {name: "snowy", img: "snowy.jpg.jpg"},
+            {name: "windy", img: "windy.jpg.jpg"},
+            {name: "partly cloudy", img: "partly cloudy.jpg.jpg"},
+            {name: "stormy", img: "stormy.jpg.jpg"},
+            {name: "rainbow", img: "rainbow.jpg.jpg"},
+            {name: "typhoon", img: "typhoon.jpg.jpg"}
         ];
 
         let isSpinning = false;
@@ -50,9 +50,10 @@
             let imgDisplay = document.getElementById('weather-display');
             
             imgDisplay.style.display = 'none';
-            qText.innerText = "Spinning...";
+            qText.innerText = "spinning...";
 
-            let randomDeg = Math.floor(Math.random() * 720) + 1440; 
+            // 增加旋轉的圈數讓它看起來更有力道
+            let randomDeg = Math.floor(Math.random() * 1440) + 2160; 
             wheel.style.transform = `rotate(${randomDeg}deg)`;
 
             setTimeout(() => {
@@ -60,17 +61,18 @@
                 imgDisplay.src = item.img;
                 imgDisplay.style.display = 'inline-block';
                 
-                qText.innerHTML = "What's the weather like?<br>It's " + item.name + ".";
+                // 強制將文字內容顯示為小寫
+                qText.innerHTML = "what's the weather like?<br>it's " + item.name + ".";
                 
-                // 語速調整為 0.8
                 let msg = new SpeechSynthesisUtterance("What's the weather like? It's " + item.name + ".");
                 msg.lang = 'en-US';
                 msg.rate = 0.8; 
                 window.speechSynthesis.speak(msg);
                 
                 isSpinning = false;
-            }, 3000);
+            }, 4000); // 旋轉時間延長到 4 秒，更有節奏感
         }
     </script>
 </body>
+</html>
 </html>
